@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.1.0.0",
     "parameters": {
         "vmSize": {
@@ -29,14 +29,11 @@
         "PAVersion": {
             "type": "string",
             "allowedValues": [
-                "7.1.1",
-                "8.0.0",
-                "8.1.15",
                 "9.0.1",
                 "9.1.0",
                 "latest"
             ],
-            "defaultValue": "latest",
+            "defaultValue": "9.1.0",
             "metadata": {
                 "description": "Version of PanOS to use."
             }
@@ -105,7 +102,7 @@
         },
         "Username": {
             "type": "string",
-            "defaultValue": "paloalto",
+            "defaultValue": "pa-admin",
             "metadata": {
                 "description": "The name of the pivileged account that should be used to ssh and login to the PanOS web portal."
             }
@@ -142,7 +139,7 @@
             }
         },
         {
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2020-04-01",
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "[variables('managementNSGName')]",
             "location": "[resourceGroup().location]",
@@ -182,7 +179,7 @@
         {
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[concat(parameters('envPrefix'),'-',copyIndex(1),'-Management-PIP')]",
-            "apiVersion": "2017-08-01",
+            "apiVersion": "2020-04-01",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard"
@@ -202,7 +199,7 @@
         {
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[concat(parameters('envPrefix'),'-',copyIndex(1),'-Untrust-PIP')]",
-            "apiVersion": "2017-08-01",
+            "apiVersion": "2020-04-01",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard"
@@ -222,7 +219,7 @@
         {
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "[concat(variables('untrustLBName'),'-PIP')]",
-            "apiVersion": "2017-08-01",
+            "apiVersion": "2020-04-01",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard"
@@ -236,7 +233,7 @@
             }
         },
         {
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2020-04-01",
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[concat(parameters('envPrefix'),'-',copyIndex(1),'-Management-NIC')]",
             "location": "[resourceGroup().location]",
@@ -270,7 +267,7 @@
             }
         },
         {
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2020-04-01",
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[concat(parameters('envPrefix'),'-',copyIndex(1),'-Untrust-NIC')]",
             "location": "[resourceGroup().location]",
@@ -307,7 +304,7 @@
             }
         },
         {
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2020-04-01",
             "type": "Microsoft.Network/networkInterfaces",
             "name": "[concat(parameters('envPrefix'),'-',copyIndex(1),'-Trust-NIC')]",
             "location": "[resourceGroup().location]",
@@ -340,7 +337,7 @@
             }
         },
         {
-            "apiVersion": "2017-03-30",
+            "apiVersion": "2019-03-01",
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[concat(parameters('envPrefix'),'-',copyIndex(1))]",
             "location": "[resourceGroup().location]",
@@ -414,7 +411,7 @@
         {
             "type": "Microsoft.Network/loadBalancers",
             "name": "[variables('untrustLBName')]",
-            "apiVersion": "2017-08-01",
+            "apiVersion": "2020-04-01",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard"
@@ -482,7 +479,7 @@
         {
             "type": "Microsoft.Network/loadBalancers",
             "name": "[variables('trustLBName')]",
-            "apiVersion": "2017-08-01",
+            "apiVersion": "2020-04-01",
             "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Standard"
